@@ -3,6 +3,7 @@ const app = express();
 const mongo = require("mongoose");
 const bd=require('body-parser');
 const userRoute= require("./router/userRoute");
+const sellerRoute = require("./router/sellerRoute");
 const dotenv=require('dotenv');
 dotenv.config();
 
@@ -19,6 +20,7 @@ mongo.connection.on('connected',connected=>{
 app.use(bd.urlencoded({extended:false}));
 app.use(bd.json());
 app.use(userRoute);
+app.use(sellerRoute);
 
 
 app.use((req,res,next)=>{
