@@ -1,15 +1,15 @@
-.Login-mainDiv{
+.Register-mainDiv{
     display: flex;
     justify-content: center;  
 }
-.Login-left{
+.Register-left{
     display: flex;
     flex-direction: column; 
     padding: 10px;
     background-color: rgba(126, 192, 240, 0.878);
     color: white;
 }
-.Login-right{
+.Register-right{
     display: flex;
     flex-direction: column;
     justify-content: space-between;

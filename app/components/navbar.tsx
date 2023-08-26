@@ -2,24 +2,14 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "../../public/shoppit.png";
 import Image from "next/image";
-import searchIcon from "../../public/searchicon.png"
+import searchIcon from "../../public/searchicon.png";
+import Link from "next/link";
 
-interface NavbarProps {
-  setActiveComponent: (componentName: string) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ setActiveComponent }) => {
-  // Notice the object destructuring here
+const Navbar = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
 
   const handleBurgerClick = () => {
     setIsBurgerOpen(!isBurgerOpen);
-  };
-
-  const handleNavLinkClick = (componentName: string) => {
-    setActiveComponent(componentName);
-    // setIsBurgerOpen(false);
-    console.log("check");
   };
 
   return (
@@ -40,21 +30,24 @@ const Navbar: React.FC<NavbarProps> = ({ setActiveComponent }) => {
       <h3 className="Navbar-logotext">ShopiT</h3>
 
       <div className="Navbar-SearchContainer">
-        <input placeholder="Search For products" className="Navbar-searchInput"></input>
-        <Image src={searchIcon} alt="search" className="Navbar-searchIcon"/>
-
+        <input
+          placeholder="Search For products"
+          className="Navbar-searchInput"
+        ></input>
+        <Image src={searchIcon} alt="search" className="Navbar-searchIcon" />
       </div>
 
       <div className="Nav-Container">
-        <div onClick={() => handleNavLinkClick("landing")} className="Nav-Link">
+        <Link className="Nav-Link" href="/">
           Home
-        </div>
-        <div onClick={() => handleNavLinkClick("login")} className="Nav-link">
+        </Link>
+        <Link className="Nav-Link" href="/login">
           Login
-        </div>
-        <div onClick={() => handleNavLinkClick("cart")} className="Nav-Link">
+        </Link>
+
+        <Link className="Nav-Link" href="">
           Cart
-        </div>
+        </Link>
       </div>
       <div className="Nav-toggle"></div>
     </div>

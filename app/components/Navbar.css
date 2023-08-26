@@ -6,6 +6,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     animation: fadeIn 1s ease-in-out forwards;
   }
@@ -93,20 +94,22 @@
 }
 
 .Nav-logo {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   display: block;
   border-radius: 20px;
 }
 
 /* Hover effect for navigation links */
-.Nav-Container div {
+.Nav-Link {
   /* Existing styles for both light and dark modes */
   cursor: pointer;
+  color: #1f84be;
   transition: color 0.2s ease-in-out;
+  text-decoration: none;
 }
 
-.Nav-Container div:hover {
+.Nav-Link:hover {
   /* Existing styles for both light and dark modes */
   color: #292b58;
   transition: color 0.4s ease-in-out;
@@ -121,11 +124,10 @@
   cursor: pointer;
   display: block;
   height: 60px;
-  margin-top: 10px;
   margin-left: 20px;
   margin-right: 20px;
   position: relative;
-  width: 60px;
+  width: 50px;
 }
 .burger-icon span {
   background-color: grey;
