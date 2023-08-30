@@ -99,7 +99,7 @@ function Login() {
           SignIn
         </Button>
         <Typography variant="h6">
-          Don't have a account <a href="register">Register</a>
+          Don&apos;t have a account <a href="register">Register</a>
         </Typography>
         <Typography variant="h6">
           User?<Link href="/login">Login</Link>
