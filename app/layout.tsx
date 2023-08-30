@@ -8,11 +8,6 @@ import Home from './home/page'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'ShopIT',
-  description: 'Buy and sell products',
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -20,6 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>ShopIT</title>
+        <meta name='description' content='Buy and sell products' />
+      </head>
       <body className={inter.className}>
         <div style={{ display: 'flex', flexDirection: 'column'  }}>
           <div>
