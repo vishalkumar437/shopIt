@@ -4,6 +4,7 @@ import logo from "../../public/shoppit.png";
 import Image from "next/image";
 import searchIcon from "../../public/searchicon.png";
 import Link from "next/link";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 const Navbar = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
@@ -14,19 +15,10 @@ const Navbar = () => {
 
   return (
     <div className="Nav-MainContainer">
-      <div
-        className={`burger-icon ${
-          isBurgerOpen ? "closed-burger" : "open-burger"
-        }`}
-        onClick={handleBurgerClick}
-      >
-        <span className="burger-bun-top"></span>
-        <span className="burger-middle"></span>
-        <span className="burger-bun-bottom"></span>
-      </div>
-      <a href="/" className="Nav-logoContainer">
+      
+      <Link href="/" className="Nav-logoContainer">
         <Image src={logo} alt="ShopIT" className="Nav-logo" />
-      </a>
+      </Link>
       <h3 className="Navbar-logotext">ShopiT</h3>
 
       <div className="Navbar-SearchContainer">
@@ -45,8 +37,8 @@ const Navbar = () => {
           Login
         </Link>
 
-        <Link className="Nav-Link" href="">
-          Cart
+        <Link className="Nav-Link" href="/cart">
+          <ShoppingBagIcon fontSize="large"/>
         </Link>
       </div>
       <div className="Nav-toggle"></div>

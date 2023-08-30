@@ -1,11 +1,17 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import Category from '../components/category/page'
+import Carousel from '../components/carousel/Carousel'
+import Cards from '../components/cards'
 
-export default function page() {
+export default function Home() {
   return (
-    <Box>
+    <Box sx={{width:"100%"}}>
       <Category/>
+      <Carousel/>
+      <Cards/>
+      <Cards/>
+      
     </Box>
   )
 }
