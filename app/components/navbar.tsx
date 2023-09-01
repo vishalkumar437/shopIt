@@ -1,21 +1,18 @@
+"use client";
 import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "../../public/shoppit.png";
 import Image from "next/image";
 import searchIcon from "../../public/searchicon.png";
 import Link from "next/link";
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-
-const Navbar = () => {
-  const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
-
-  const handleBurgerClick = () => {
-    setIsBurgerOpen(!isBurgerOpen);
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import { Button } from "@mui/material";
+const Navbar = ({ isLoginClicked }: any) => {
+  const handleLoginClick = () => {
+    isLoginClicked(true);
   };
-
   return (
     <div className="Nav-MainContainer">
-      
       <Link href="/" className="Nav-logoContainer">
         <Image src={logo} alt="ShopIT" className="Nav-logo" />
       </Link>
@@ -26,22 +23,19 @@ const Navbar = () => {
           placeholder="Search For products"
           className="Navbar-searchInput"
         ></input>
-        <Image src={searchIcon} alt="search" className="Navbar-searchIcon" />
+        <Button id="search-button">
+          <Image src={searchIcon} alt="search" className="Navbar-searchIcon" />
+        </Button>
       </div>
 
       <div className="Nav-Container">
-        <Link className="Nav-Link" href="/">
-          Home
-        </Link>
-        <Link className="Nav-Link" href="/user/login">
+        <span className="Nav-Link" onClick={handleLoginClick}>
           Login
-        </Link>
-
+        </span>
         <Link className="Nav-Link" href="/cart">
-          <ShoppingBagIcon fontSize="large"/>
+          <ShoppingBagIcon fontSize="large" />
         </Link>
       </div>
-      <div className="Nav-toggle"></div>
     </div>
   );
 };

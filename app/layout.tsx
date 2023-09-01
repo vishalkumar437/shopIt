@@ -1,10 +1,8 @@
 "use client"
 import './globals.css'
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navbar from './components/navbar'
 import Footer from './components/footer/footer'
-import Home from './home/page'
+import Components from './Components'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,12 +19,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <div style={{ display: 'flex', flexDirection: 'column'  }}>
-          <div>
-            <Navbar />
-          </div>
-          <div>
-            <Home/>
-          </div>
+          <Components/>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             {children}
           </div>

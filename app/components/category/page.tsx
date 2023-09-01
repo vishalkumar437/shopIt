@@ -7,6 +7,7 @@ import health from "../assets/hygiene-products.png";
 import furniture from "../assets/furniture.png";
 import sport from "../assets/sport.png";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface category {
   title: string;
@@ -21,23 +22,21 @@ export default function Category() {
     { title: "Furniture", icon: furniture, subcategory: [] },
     { title: "Sports & Fitness", icon: sport, subcategory: [] },
   ];
-  const getWidth = () => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth;
-    }
-    return 0;
-  };
-  
-  const getFontSize = () => {
-    const width = getWidth();
+  const [fontSize, setFontSize] = useState('');
+
+  // useEffect runs on the client side after the component is mounted
+  useEffect(() => {
+    // Check the window width and set the fontSize accordingly
+    const width = window.innerWidth;
     if (width <= 600) {
-      return "10px";
+      setFontSize('10px');
     } else if (width <= 1024) {
-      return "13px";
+      setFontSize('13px');
     } else {
-      return "16px";
+      setFontSize('16px');
     }
-  };
+  }, []);
+  
   return (
     <Box>
       <List sx={{ display: "flex", flexDirection: "row",  alignItems:"center", border: "1px solid #ccc", margin: "8px" }}>
@@ -47,7 +46,7 @@ export default function Category() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              fontSize: getFontSize()
+              fontSize: fontSize, 
             }}
           >
             <ListItemIcon>
