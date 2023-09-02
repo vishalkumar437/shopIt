@@ -9,14 +9,16 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Button } from "@mui/material";
 const Navbar = ({ isLoginClicked }: any) => {
   const handleLoginClick = () => {
-    isLoginClicked(true);
+    isLoginClicked();
   };
   return (
     <div className="Nav-MainContainer">
-      <Link href="/" className="Nav-logoContainer">
+      <div className="Nav-logoContainer">
+      <Link href="/">
         <Image src={logo} alt="ShopIT" className="Nav-logo" />
       </Link>
       <h3 className="Navbar-logotext">ShopiT</h3>
+      </div>
 
       <div className="Navbar-SearchContainer">
         <input

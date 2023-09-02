@@ -7,9 +7,8 @@ export default function Components() {
     const [isLoginOpen, setLoginOpen] = useState<boolean>(false);
 
   const handleLoginClick = () => {
-    setLoginOpen(true);
+    setLoginOpen(!isLoginOpen);
   };
-
 
   return (
     <div>
@@ -18,7 +17,7 @@ export default function Components() {
         {isLoginOpen && (
           <div className="login-popup">
             <div className="login-popup-inner">
-              <AuthenticationPage/>
+              <AuthenticationPage isLoginClicked = {handleLoginClick}/>
             </div>
           </div>
         )}

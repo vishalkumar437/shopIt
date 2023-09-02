@@ -2,14 +2,13 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import Link from "next/link";
 import user from "../../interface/interface";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 
-function Login({isLogin}:any) {
+function Login({isLogin,isLoginClicked}:any) {
   const [isUser, setUser] = useState<boolean>(true);
   const [formData, setFormData] = useState<user>({
     email: "",
@@ -54,6 +53,10 @@ function Login({isLogin}:any) {
     setUser(!isUser);
   };
 
+  const handleClose = ()=>{
+    isLoginClicked();
+  }
+
   return (
     <Box
       sx={{
@@ -62,6 +65,7 @@ function Login({isLogin}:any) {
         alignItems: "strech",
       }}
     >
+      <Button sx={{position:"fixed",right:0}} onClick={handleClose}>X</Button>
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },

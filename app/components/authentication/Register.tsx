@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 
-function Register({isLogin}:any) {
+function Register({isLogin,isLoginClicked}:any) {
   const [isUser, setUser] = useState<boolean>(true);
   const [formData, setFormData] = useState<user>({
     email: "",
@@ -51,6 +51,10 @@ function Register({isLogin}:any) {
       });
   };
 
+  const handleClose = ()=>{
+    isLoginClicked();
+  }
+
   const changeUser = () => {
     setUser(!isUser);
   };
@@ -63,6 +67,7 @@ function Register({isLogin}:any) {
         alignItems: "strech",
       }}
     >
+      <Button sx={{position:"fixed",right:0}} onClick={handleClose}>X</Button>
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },

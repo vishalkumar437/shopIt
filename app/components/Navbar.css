@@ -3,9 +3,15 @@
   background-color: rgba(0, 255, 255, 0.751);
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Nav-logoContainer{
+  display: flex;
+  flex-direction: row;
+  
 }
 
 @font-face {
@@ -13,7 +19,7 @@
   src: url("../../public/Gellatio.ttf");
 }
 .Navbar-logotext {
-  padding: 10px;
+  margin-left: 10px;
   margin-right: 20px;
   color: #1f84be;
   font-family: gellatio;
@@ -40,9 +46,31 @@
 }
 
 @media (max-width: 767px) {
+  .Nav-MainContainer {
+    flex-direction: column;
+    text-align: center;
+    height: auto; /* Remove fixed height */
+  }
+
+  .Nav-logoContainer {
+    position: relative; /* Remove absolute positioning */
+    top: auto; /* Remove top positioning */
+  }
+
+  .Navbar-searchInput {
+    width: 80vw;
+  }
+
+  .Navbar-SearchContainer {
+    position: relative; /* Remove absolute positioning */
+    top: auto; /* Remove top positioning */
+    margin-top: 10px; /* Add margin for spacing */
+  }
+
   .Nav-Container {
-    position: fixed;
-    top: 100%; /* Initially move the menu off-screen */
+    width: 40vw;
+    margin: auto;
+    padding: 10px;
   }
 }
 
