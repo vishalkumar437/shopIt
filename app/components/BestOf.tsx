@@ -7,8 +7,9 @@ import {
     CardMedia,
     Button,
   } from "@mui/material";
+import Link from "next/link";
   
-  export default function Cards() {
+  export default function BestOf() {
     const categories = [
       {
         title: "Laptop",
@@ -24,6 +25,7 @@ import {
         title: "Mobile",
         image: "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/x/r/n/-original-imagmgy5jk8ytxnw.jpeg?q=70",
         startingPrice: "₹999",
+        link:"/products",
       },
       {
         title: "Monitors",
@@ -48,6 +50,9 @@ import {
       
     ];
   
+    const handleRouting = ()=>{
+      console.log("click")
+    }
     return (
       <Box
         sx={{
@@ -58,7 +63,6 @@ import {
           scrollbarWidth: "none",
         "&::-webkit-scrollbar": {
           display: "none",
-          
         },
         }}
       >
@@ -77,11 +81,12 @@ import {
           </CardContent>
         </Card>
         {categories.map((category, index) => (
+          <Link href="/products">
           <Card
             key={index}
             sx={{ flex: "0 0 auto", minWidth: "200px", textAlign: "center" }}
           >
-            <CardActionArea sx={{height:"100%"}}>
+            <CardActionArea sx={{height:"100%"}} >
               <CardMedia
                 component="img"
                 height="160"
@@ -98,6 +103,8 @@ import {
               </CardContent>
             </CardActionArea>
           </Card>
+          </Link>
+          
         ))}
       </Box>
     );
