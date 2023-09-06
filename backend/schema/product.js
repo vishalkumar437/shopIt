@@ -6,11 +6,11 @@ const productSchema = new mongo.Schema({
         required: true,
     },
     description:{
-        type: String,
+        type: [],
         required: true,
     },
     imageurl:{
-        type: String,
+        type: [],
     },
     seller:{
         type: String,
