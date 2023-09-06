@@ -1,5 +1,7 @@
 const cloudinary = require('cloudinary').v2;
+const util = require('util');
 const productSchema = require("../schema/product");
+const cloudinaryUploadAsync = util.promisify(cloudinary.uploader.upload);
 cloudinary.config({
     cloud_name: 'dlbf4uryg',
     api_key: '419499971223446',
@@ -12,27 +14,37 @@ module.exports.insertProduct = async (req, res) => {
         const seller=req.body.seller[1];
         let file = req.files
         const price= req.body.price[1];
-        const category=req.body.category[1];
+        const category=req.body.category;
         const stock=req.body.stock[1];
-        const imagesUrl = [];
-        console.log(seller)
-        if (!Array.isArray(file)) {
-            file = [req.files];
-          }
-        file.map(async (image,index)=>{
-            console.log(image)
-            const cloudinaryResponse = await cloudinary.uploader.upload(image, {
-                folder: toString(category+'/'+name+index) // Optional: Organize images in a folder
-              });
-              imagesUrl.push(cloudinaryResponse.secure_url)
-        }     
-        )
+        let imagesUrl = [];
+        let imageArray;
+        if (Array.isArray(file.images)) {
+            console.log("Received multiple images.");
+            imageArray = file.images;
+        } else {
+            console.log("Received a single image.");
+            imageArray = [file.images];
+        }
+          const uploadPromises = imageArray.map(async (image, index) => {
+            try {
+                const result = await cloudinaryUploadAsync(image.tempFilePath, {
+                    folder: category + '/' + name + index,
+                });
+                return result.url;
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                return null; // Handle the error gracefully
+            }
+        });
+        
+        imagesUrl = await Promise.all(uploadPromises);
         const Product = new productSchema({
             name:name,
             description:description,
             imageurl:imagesUrl,
             seller:seller,
             price:price,
+            category:category,
             stock:stock
         })
         await Product.save().then(result=>{
