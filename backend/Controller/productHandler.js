@@ -9,13 +9,13 @@ cloudinary.config({
 });
 
 module.exports.insertProduct = async (req, res) => {
-        const name = req.body.name[1];
+        const name = req.body.name;
         const description = req.body.description;
         const seller=req.body.seller[1];
         let file = req.files
-        const price= req.body.price[1];
+        const price= req.body.price;
         const category=req.body.category;
-        const stock=req.body.stock[1];
+        const stock=req.body.stock;
         let imagesUrl = [];
         let imageArray;
         if (Array.isArray(file.images)) {
@@ -28,7 +28,7 @@ module.exports.insertProduct = async (req, res) => {
           const uploadPromises = imageArray.map(async (image, index) => {
             try {
                 const result = await cloudinaryUploadAsync(image.tempFilePath, {
-                    folder: category + '/' + name + index,
+                    folder: category + '/' + name,
                 });
                 return result.url;
             } catch (error) {
