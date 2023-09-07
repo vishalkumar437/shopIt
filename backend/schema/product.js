@@ -20,6 +20,9 @@ const productSchema = new mongo.Schema({
         type:String,
         required: true,
     },
+    subcategory:{
+        type:String
+    },
     price:{
         type: Number,
         required:true,

@@ -6,11 +6,13 @@ const userRoute= require("./router/userRoute");
 const productRoute = require("./router/productRoute");
 const sellerRoute = require("./router/sellerRoute");
 const dotenv=require('dotenv');
+const cors = require('cors');
 const fileUpload = require('express-fileupload')
 dotenv.config();
-
+app.use(cors({
+    origin:"*"
+}))
 mongo.connect(process.env.DB_URL_VISHAL);
-
   mongo.connection.on('error',err=>{
     console.log("Error connection failed!!");
 });

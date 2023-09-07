@@ -30,8 +30,7 @@ module.exports.sellerSignUp = async (req, res) => {
         .then((result) => {
             console.log(result);
             r = {
-              msg: "user created",
-              result,
+              msg: "user created"
             };
     
             res.status(201).send(r);
@@ -71,7 +70,7 @@ module.exports.sellerLogin = async (req,res)=>{
                             res.status(200).send({
                                 id: result._id,
                                 msg: "login successfull",
-                                result,
+                                name: result.name
                               });
                         }
                         else{

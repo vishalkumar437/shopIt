@@ -1,23 +1,23 @@
 const userModule = require("../schema/user");
 const bcrypt = require("bcrypt");
 
-function CheckPassword(inputtxt) {
-    var passw = /[A-Za-z]{6,14}/;
-    console.log(inputtxt);
-    if (inputtxt.match(passw)) {
-        return true;
-    }
-    else {
-        console.log("er");
-        return false;
-    }
-}
+// function CheckPassword(inputtxt) {
+//     var passw = /[A-Za-z]{6,14}/;
+//     console.log(inputtxt);
+//     if (inputtxt.match(passw)) {
+//         return true;
+//     }
+//     else {
+//         console.log("Password Not Strong Enough");
+//         return false;
+//     }
+// }
 
 module.exports.userSignUp = async (req, res) => {
 
-    if (!CheckPassword(req.body.password)) {
-        return;
-    }
+    // if (!CheckPassword(req.body.password)) {
+    //     return;
+    // }
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         const email = req.body.email;
         const name = req.body.name;
@@ -71,7 +71,7 @@ module.exports.userLogin = async (req,res)=>{
                             res.status(200).send({
                                 id: result._id,
                                 msg: "login successfull",
-                                result,
+                                name: result.name
                               });
                         }
                         else{

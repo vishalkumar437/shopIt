@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import user from "../../interface/interface";
+import {user} from "../../interface/interface";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -34,7 +34,7 @@ function Register({isLogin,isLoginClicked}:any) {
       name: formData.name,
       password: formData.password,
     };
-    const link = isUser?"https:localhost:3000/userRegister":"https:localhost:3000/sellerRegister";
+    const link = isUser?"http://localhost:3000/createUser":"http://localhost:3000/sellerRegister";
     console.log(data);
     axios
       .post(link, data, {

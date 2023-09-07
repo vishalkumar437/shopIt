@@ -2,13 +2,16 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import user from "../../interface/interface";
+import {user} from "../../interface/interface";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { userLogin } from "@/app/action";
 
 function Login({isLogin,isLoginClicked}:any) {
+  const dispatch = useDispatch();
   const [isUser, setUser] = useState<boolean>(true);
   const [formData, setFormData] = useState<user>({
     email: "",
@@ -32,7 +35,7 @@ function Login({isLogin,isLoginClicked}:any) {
       email: formData.email,
       password: formData.password,
     };
-    const link = isUser?"https:localhost:3000/userLogin":"https:localhost:3000/sellerLogin";
+    const link = isUser?"http://localhost:3000/userLogin":"http://localhost:3000/sellerLogin";
     console.log(data);
     axios
       .post(link, data, {
@@ -41,6 +44,12 @@ function Login({isLogin,isLoginClicked}:any) {
       .then((response) => {
         console.log(response.status);
         if (response.status === 200) {
+          if(isUser){
+            dispatch(userLogin({
+              name: response.data.name,
+              id: response.data.id
+            }))
+          }
           console.log(response);
         }
       })
