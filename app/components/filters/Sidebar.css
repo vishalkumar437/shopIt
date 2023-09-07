@@ -1,0 +1,47 @@
+/* Sidebar.css */
+.sidebar {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 16px;
+    max-width: 300px;
+  }
+  
+  .filter-section {
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 8px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  /* Add media queries for mobile responsiveness */
+  @media (max-width: 768px) {
+    .sidebar {
+      max-width: 100%;
+    }
+    /* Add any additional styles for mobile here */
+  }
+  

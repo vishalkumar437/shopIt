@@ -1,0 +1,136 @@
+.Nav-MainContainer {
+  /* Existing styles for both light and dark modes */
+  background-color: rgba(0, 255, 255, 0.751);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Nav-logoContainer{
+  display: flex;
+  flex-direction: row;
+  
+}
+
+@font-face {
+  font-family: gellatio;
+  src: url("../../public/Gellatio.ttf");
+}
+.Navbar-logotext {
+  margin-left: 10px;
+  margin-right: 20px;
+  color: #1f84be;
+  font-family: gellatio;
+  text-align: center;
+}
+.Navbar-SearchContainer {
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  margin: 5px;
+}
+.Navbar-searchIcon {
+  display: flex;
+  align-self: center;
+  height: 40px;
+  width: 40px;
+}
+.Navbar-searchInput {
+  height: 8vh;
+  width: 25vw;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .Nav-MainContainer {
+    flex-direction: column;
+    text-align: center;
+    height: auto; /* Remove fixed height */
+  }
+
+  .Nav-logoContainer {
+    position: relative; /* Remove absolute positioning */
+    top: auto; /* Remove top positioning */
+  }
+
+  .Navbar-searchInput {
+    width: 80vw;
+  }
+
+  .Navbar-SearchContainer {
+    position: relative; /* Remove absolute positioning */
+    top: auto; /* Remove top positioning */
+    margin-top: 10px; /* Add margin for spacing */
+  }
+
+  .Nav-Container {
+    width: 40vw;
+    margin: auto;
+    padding: 10px;
+  }
+}
+
+.login-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
+  backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the pop-up is on top of everything */
+}
+
+/* Style for the inner content of the login pop-up */
+.login-popup-inner {
+  background-color: white; /* Background color for the pop-up */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow for the pop-up */
+  z-index: 100; /* Ensure the inner content is on top of the background */
+}
+
+.Nav-Container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-grow: 0.3;
+  margin-left: auto;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
+.Nav-logo {
+  width: 80px;
+  height: 80px;
+  display: block;
+  border-radius: 20px;
+}
+
+/* Hover effect for navigation links */
+.Nav-Link {
+  cursor: pointer;
+  color: #1f84be;
+  transition: color 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.Nav-Link:hover {
+  /* Existing styles for both light and dark modes */
+  color: #292b58;
+  transition: color 0.4s ease-in-out;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
