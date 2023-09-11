@@ -19,7 +19,7 @@ module.exports.userSignUp = async (req, res) => {
     //     return;
     // }
     bcrypt.hash(req.body.password, 10, (err, hash) => {
-        const email = req.body.email;
+        const email = (req.body.email).toLowerCase();
         const name = req.body.name;
         const password = hash;
         userModule.create({
@@ -54,44 +54,34 @@ module.exports.userSignUp = async (req, res) => {
 }
 
 module.exports.userLogin = async (req,res)=>{
-    const email = req.body.email;
+    const email = (req.body.email).toLowerCase();
     const password = req.body.password;
     userModule
-            .findOne({email})
-            .then(result=>{
-                if(result===null){
-                    res.status(409).send({
-                        msg: "No User Exist",
-                      });
-                      return;
-                }
-                bcrypt.compare(password,result.password)
-                    .then(c=>{
-                        if(c==true){
-                            res.status(200).send({
-                                id: result._id,
-                                msg: "login successfull",
-                                name: result.name
-                              });
-                        }
-                        else{
-                            console.log("Wrong Password");
-                            res.status(502).json({
-                              error: err,
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        console.log("error logging in");
-                        res.status(500).json({
-                          error: err,
-                        });
-                      });
-            })
-            .catch((err) => {
-                console.log(err);
-                res.status(400).send({
-                  msg: err,
-                });
-              });
+  .findOne({ email })
+  .then((result) => {
+    if (result === null) {
+      res.sendStatus(404); // User not found
+      return;
+    } else {
+      bcrypt.compare(password, result.password).then((c) => {
+        console.log(result)
+        if (c == true) {
+          res.status(200).send({
+            name: result.name,
+            id:result.id,
+          });
+        } else {
+          console.log("Wrong password");
+          res.sendStatus(401); // Unauthorized
+        }
+      });
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send({
+      msg: err,
+    });
+  });
+
 }

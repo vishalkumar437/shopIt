@@ -4,4 +4,4 @@ const app = require("./app");
 const server = http.createServer(app);
 
 
-server.listen(port,console.log("running"));
+server.listen(port,console.log("Server Started at: ",port));

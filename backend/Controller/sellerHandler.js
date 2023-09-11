@@ -1,25 +1,25 @@
 const sellerModule = require("../schema/seller");
 const bcrypt = require("bcrypt");
 
-function CheckPassword(inputtxt) {
-    var passw = /[A-Za-z]{6,14}/;
-    console.log(inputtxt);
-    if (inputtxt.match(passw)) {
-        return true;
-    }
-    else {
-        console.log("er");
-        return false;
-    }
-}
+// function CheckPassword(inputtxt) {
+//     var passw = /[A-Za-z]{6,14}/;
+//     console.log(inputtxt);
+//     if (inputtxt.match(passw)) {
+//         return true;
+//     }
+//     else {
+//         console.log("er");
+//         return false;
+//     }
+// }
 
 module.exports.sellerSignUp = async (req, res) => {
 
-    if (!CheckPassword(req.body.password)) {
-        return;
-    }
+    // if (!CheckPassword(req.body.password)) {
+    //     return;
+    // }
     bcrypt.hash(req.body.password, 10, (err, hash) => {
-        const email = req.body.email;
+        const email = (req.body.email).toLowerCase();
         const name = req.body.name;
         const password = hash;
         sellerModule.create({
