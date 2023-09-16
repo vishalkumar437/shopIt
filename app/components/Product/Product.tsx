@@ -42,8 +42,8 @@ export default function Product(products: any) {
   };
   return (
     <div className="Product-mainContainer" onClick={handleClick}>
-      {products.product.map((product: any) => (
-        <Box>
+      {products.product.map((product: any, index:number) => (
+        <Box key={index} >
           <Paper
             sx={{
               padding: 2,
