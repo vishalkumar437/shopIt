@@ -40,21 +40,18 @@
     Mobile: {
       Brand: ["Sony", "Realme","Motorola", "Apple", "Samsung"],
       PriceRange: ["10000", "29999",],
-      ScreenType:["AMoLED","IPS","LCD"],
-      Ram: ["2GB", "4GB", "8GB"],
-      Storage: ["32GB", "64GB","128GB","256GB"],
     },
     Television: {
       Brand: ["Sony", "Realme", "Apple", "Samsung"],
       Range: ["1000", "99999"],
-      Size: ["24'", "32'", "48'"],
-      Storage: ["32GB", "64GB"],
+      // Size: ["24'", "32'", "48'"],
+      // Storage: ["32GB", "64GB"],
     },
     Laptop: {
       Brand: ["Dell", "HP", "Lenovo", "Apple"],
       PriceRange: ["10000", "99999"],
-      Ram: ["4GB", "8GB", "16GB"],
-      Storage: ["256GB SSD", "512GB SSD"],
+      // Ram: ["4GB", "8GB", "16GB"],
+      // Storage: ["256GB SSD", "512GB SSD"],
     },
   };
 
@@ -62,9 +59,6 @@
     category: string;
     brand: string;
     priceRange: string;
-    ram: string;
-    storage: string;
-    size: string;
   }
   
 
@@ -73,10 +67,7 @@
     const [filters, setFilters] = useState<Filters>({
       category: "",
       brand: "",
-      priceRange: "",
-      ram: "",
-      storage: "",
-      size: "",
+      priceRange: ""
     });
 
     const handleFilterChange = (
@@ -169,9 +160,6 @@
               category: "",
               brand: "",
               priceRange: "",
-              ram: "",
-              storage: "",
-              size: "",
             })
           }
         >

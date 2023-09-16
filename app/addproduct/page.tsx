@@ -1,8 +1,11 @@
 "use client"
 import React, { useState } from 'react';
-import { TextField, Button, Grid } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { TextField, Button, Grid, Alert } from '@mui/material';
 import { ProductFormData } from '../interface/interface';
+import { useSelector } from 'react-redux';
 const ProductForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
@@ -13,7 +16,13 @@ const ProductForm = () => {
     subcategory: '',
     stock: ''
   });
-
+  const sellerInfo = useSelector((state:any)=>state.auth);
+  console.log(sellerInfo);
+  if (!sellerInfo.userInfo || !sellerInfo.isSeller) {
+    <Alert severity='error'>Please Login as a Seller</Alert>
+    router.push('/');
+    return null; // Return null to prevent rendering of the form
+  }
   const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData({
@@ -32,11 +41,10 @@ const ProductForm = () => {
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-
     const formDataToSend = new FormData();
     formDataToSend.append('name', formData.name);
     formDataToSend.append('description', formData.description);
-    formDataToSend.append('seller', 'vishal' /*formData.seller*/);
+    formDataToSend.append('seller', sellerInfo.userInfo.id);
     formData.images.forEach((image, index) => {
       formDataToSend.append(`images`, image);
     });
@@ -46,7 +54,7 @@ const ProductForm = () => {
     formDataToSend.append('stock', formData.stock);
 
     try {
-      const response = await fetch('http://localhost:3001/insertProduct', {
+      const response = await fetch('http://localhost:3000/insertProduct', {
         method: 'POST',
         body: formDataToSend
       });

@@ -1,16 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-import {user} from "../../interface/interface";
+import { user } from "../../interface/interface";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { userLogin } from "@/app/action";
+import { sellerLogin, userLogin } from "@/app/action";
+import { useCookies } from 'next-client-cookies';
 
-function Login({isLogin,isLoginClicked}:any) {
+function Login({ isLogin, isLoginClicked }: any) {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const Cookies = useCookies();
   const dispatch = useDispatch();
   const [isUser, setUser] = useState<boolean>(true);
   const [formData, setFormData] = useState<user>({
@@ -19,42 +23,71 @@ function Login({isLogin,isLoginClicked}:any) {
     password: "",
   });
 
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    // Use the correct syntax to update formData
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData((form) => ({
       ...form,
       [event.target.name]: event.target.value,
     }));
   };
-  const handleRegisterPage = ()=>{
-      isLogin();
-  }
+  const handleRegisterPage = () => {
+    isLogin();
+  };
 
   const handleSignIn = () => {
+    setLoading(true);
     const data = {
       email: formData.email,
       password: formData.password,
     };
-    const link = isUser?"http://localhost:3000/userLogin":"http://localhost:3000/sellerLogin";
-    console.log(data);
+    const link = isUser
+      ? "http://localhost:3000/userLogin"
+      : "http://localhost:3000/sellerLogin";
     axios
       .post(link, data, {
         headers: { "Access-Control-Allow-Origin": "*" },
       })
       .then((response) => {
-        console.log(response.status);
+        console.log(response);
         if (response.status === 200) {
-          if(isUser){
-            dispatch(userLogin({
-              name: response.data.name,
-              id: response.data.id
-            }))
+          if (isUser) {
+            dispatch(
+              userLogin({
+                name: response.data.name,
+                id: response.data.id,
+              })
+            );
+          } else {
+            dispatch(
+              sellerLogin({
+                name: response.data.name,
+                id: response.data.id,
+              })
+            );
           }
-          console.log(response);
+          Cookies.set("isLoggedIn", "true");
+          Cookies.set(
+            "userDetails",
+            JSON.stringify({
+              name: response.data.name,
+              id: response.data.id,
+              isSeller: !isUser,
+            })
+          );
+          isLoginClicked();
         }
       })
       .catch((error) => {
-        console.log("error");
+        if (error.response.status === 401) {
+          document.getElementById("Error")!.innerText =
+            "Email or Password Invalid";
+        } else if (error.response.status === 404) {
+          document.getElementById("Error")!.innerText = "Email Not Registered";
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -62,9 +95,9 @@ function Login({isLogin,isLoginClicked}:any) {
     setUser(!isUser);
   };
 
-  const handleClose = ()=>{
+  const handleClose = () => {
     isLoginClicked();
-  }
+  };
 
   return (
     <Box
@@ -74,7 +107,9 @@ function Login({isLogin,isLoginClicked}:any) {
         alignItems: "strech",
       }}
     >
-      <Button sx={{position:"fixed",right:0}} onClick={handleClose}>X</Button>
+      <Button sx={{ position: "fixed", right: 0 }} onClick={handleClose}>
+        X
+      </Button>
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },
@@ -83,13 +118,19 @@ function Login({isLogin,isLoginClicked}:any) {
           flexGrow: 1,
           backgroundColor: "rgba(126, 192, 240, 0.878)",
           color: "white",
-          maxWidth:"20vw"
+          maxWidth: "20vw",
         }}
       >
         <Typography variant="h2">Login</Typography>
-        {isUser? <Typography variant="h6">
-          Access Your Orders, Recommendation, Carts.
-        </Typography>:<Typography variant="h6">Access Your customers, sales, stock.</Typography>}
+        {isUser ? (
+          <Typography variant="h6">
+            Access Your Orders, Recommendation, Carts.
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            Access Your customers, sales, stock.
+          </Typography>
+        )}
       </Box>
       <Box
         sx={{
@@ -101,7 +142,7 @@ function Login({isLogin,isLoginClicked}:any) {
           padding: 4,
         }}
       >
-        <Typography variant="h4">{isUser?"User":"Seller"}</Typography>
+        <Typography variant="h4">{isUser ? "User" : "Seller"}</Typography>
         <TextField
           type="text"
           placeholder="Email"
@@ -123,10 +164,12 @@ function Login({isLogin,isLoginClicked}:any) {
           sx={{ marginTop: 2 }}
           onClick={handleSignIn}
         >
-          SignIn
+          {isLoading ? <CircularProgress /> : "SignIn"}
         </Button>
+        <div id="Error"></div>
         <Typography variant="h6">
-          Don&apos;t have a account <Button onClick={handleRegisterPage}>Register</Button>
+          Don&apos;t have a account{" "}
+          <Button onClick={handleRegisterPage}>Register</Button>
         </Typography>
         <Typography>
           Seller?<Button onClick={changeUser}>Login</Button>

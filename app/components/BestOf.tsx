@@ -81,7 +81,7 @@ import Link from "next/link";
           </CardContent>
         </Card>
         {categories.map((category, index) => (
-          <Link href="/products">
+          <Link href="/products" key={index}>
           <Card
             key={index}
             sx={{ flex: "0 0 auto", minWidth: "200px", textAlign: "center" }}

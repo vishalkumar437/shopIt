@@ -68,9 +68,11 @@
   }
 
   .Nav-Container {
+    display: flex;
+    flex-direction: column;
     width: 40vw;
-    margin: auto;
     padding: 10px;
+    margin: auto;
   }
 }
 

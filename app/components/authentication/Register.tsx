@@ -1,14 +1,15 @@
 "use client";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState } from "react";
 import axios from "axios";
-import {user} from "../../interface/interface";
+import { user } from "../../interface/interface";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 
-function Register({isLogin,isLoginClicked}:any) {
+function Register({ isLogin, isLoginClicked }: any) {
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [isUser, setUser] = useState<boolean>(true);
   const [formData, setFormData] = useState<user>({
     email: "",
@@ -24,17 +25,20 @@ function Register({isLogin,isLoginClicked}:any) {
       [event.target.name]: event.target.value,
     }));
   };
-  const handleLoginrPage = ()=>{
-      isLogin();
-  }
+  const handleLoginrPage = () => {
+    isLogin();
+  };
 
   const handleSignIn = () => {
+    setLoading(true);
     const data = {
       email: formData.email,
       name: formData.name,
       password: formData.password,
     };
-    const link = isUser?"http://localhost:3000/createUser":"http://localhost:3000/sellerRegister";
+    const link = isUser
+      ? "http://localhost:3000/createUser"
+      : "http://localhost:3000/createseller";
     console.log(data);
     axios
       .post(link, data, {
@@ -47,13 +51,19 @@ function Register({isLogin,isLoginClicked}:any) {
         }
       })
       .catch((error) => {
-        console.log("error");
+        if (error.response.status === 403) {
+          const errorMessage = "Email already exists";
+          document.getElementById("Error")!.innerText = errorMessage;
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  const handleClose = ()=>{
+  const handleClose = () => {
     isLoginClicked();
-  }
+  };
 
   const changeUser = () => {
     setUser(!isUser);
@@ -67,7 +77,9 @@ function Register({isLogin,isLoginClicked}:any) {
         alignItems: "strech",
       }}
     >
-      <Button sx={{position:"fixed",right:0}} onClick={handleClose}>X</Button>
+      <Button sx={{ position: "fixed", right: 0 }} onClick={handleClose}>
+        X
+      </Button>
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },
@@ -76,13 +88,19 @@ function Register({isLogin,isLoginClicked}:any) {
           flexGrow: 1,
           backgroundColor: "rgba(126, 192, 240, 0.878)",
           color: "white",
-          maxWidth:"20vw"
+          maxWidth: "20vw",
         }}
       >
-        <Typography variant="h2">Login</Typography>
-        {isUser? <Typography variant="h6">
-          Access Your Orders, Recommendation, Carts.
-        </Typography>:<Typography variant="h6">Access Your customers, sales, stock.</Typography>}
+        <Typography variant="h2">Register</Typography>
+        {isUser ? (
+          <Typography variant="h6">
+            Access Your Orders, Recommendation, Carts.
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            Access Your customers, sales, stock.
+          </Typography>
+        )}
       </Box>
       <Box
         sx={{
@@ -94,7 +112,7 @@ function Register({isLogin,isLoginClicked}:any) {
           padding: 4,
         }}
       >
-        <Typography variant="h4">{isUser?"User":"Seller"}</Typography>
+        <Typography variant="h4">{isUser ? "User" : "Seller"}</Typography>
         <TextField
           type="text"
           placeholder="Name"
@@ -119,15 +137,17 @@ function Register({isLogin,isLoginClicked}:any) {
           sx={{ marginTop: "30px" }}
           onChange={handleInputChange}
         />
+        <div id="Error" style={{ color: "red" }}></div>
         <Button
           variant="contained"
           sx={{ marginTop: 2 }}
           onClick={handleSignIn}
         >
-          Register
+          {isLoading ? <CircularProgress /> : "Register"}
         </Button>
         <Typography variant="h6">
-          Already have a account <Button onClick={handleLoginrPage}>Login</Button>
+          Already have a account{" "}
+          <Button onClick={handleLoginrPage}>Login</Button>
         </Typography>
         <Typography>
           Seller?<Button onClick={changeUser}>Register</Button>

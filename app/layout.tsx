@@ -1,12 +1,9 @@
-"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Footer from "./components/footer/footer";
-import { useState } from "react";
-import Navbar from "./components/navbar";
-import AuthenticationPage from "./components/authentication/page";
-import { Provider } from "react-redux";
-import store from "./store/store";
+import NavBar from "./NavBar";
+import { cookies } from "next/headers";
+import { ClientCookiesProvider } from "./CookiesProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({
@@ -14,11 +11,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isLoginOpen, setLoginOpen] = useState<boolean>(false);
-
-  const handleLoginClick = () => {
-    setLoginOpen(!isLoginOpen);
-  };
   return (
     <html lang="en">
       <head>
@@ -26,24 +18,15 @@ export default function RootLayout({
         <meta name="description" content="Buy and sell products" />
       </head>
       <body className={inter.className}>
-        <Provider store={store}>
+        <ClientCookiesProvider value={cookies().getAll()}>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div>
-              <Navbar isLoginClicked={handleLoginClick} />
-              {isLoginOpen && (
-                <div className="login-popup">
-                  <div className="login-popup-inner">
-                    <AuthenticationPage isLoginClicked={handleLoginClick} />
-                  </div>
-                </div>
-              )}
-            </div>
+            <NavBar />
             <div>{children}</div>
             <div>
               <Footer />
             </div>
           </div>
-        </Provider>
+        </ClientCookiesProvider>
       </body>
     </html>
   );

@@ -15,8 +15,8 @@ module.exports.insertProduct = async (req, res) => {
     const seller = req.body.seller[1];
     let file = req.files
     const price = req.body.price;
-    const subcategory = req.body.subcategory;
-    const category = req.body.category;
+    const subcategory = req.body.subcategory.toLowerCase();
+    const category = req.body.category.toLowerCase();
     const stock = req.body.stock;
     let imagesUrl = [];
     let imageArray;
@@ -70,6 +70,18 @@ module.exports.insertProduct = async (req, res) => {
                 error: err
             })
         });
-
-
+}
+module.exports.getProductByCategory= async(req,res)=>{
+    let category = req.query.category;
+    productSchema.find({category:category}).then((result)=>{
+        console.log(result)
+        res.status(200).json({
+            product:result
+        })
+    })
+    .catch((error)=>{
+        res.status(200).json({
+            error:error
+        })
+    })
 }
