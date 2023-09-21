@@ -13,7 +13,7 @@
   
   @media (max-width: 767px) {
     .Product-mainContainer{
-        flex-direction: row;
+        flex-direction: column;
     }
     .Product-content{
         flex-direction: column;
