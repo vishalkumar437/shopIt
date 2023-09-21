@@ -4,6 +4,7 @@ import Footer from "./components/footer/footer";
 import NavBar from "./NavBar";
 import { cookies } from "next/headers";
 import { ClientCookiesProvider } from "./CookiesProvider";
+import ProviderWrapper from "./ProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({
@@ -21,7 +22,7 @@ export default function RootLayout({
         <ClientCookiesProvider value={cookies().getAll()}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <NavBar />
-            <div>{children}</div>
+            <ProviderWrapper children={children}/>
             <div>
               <Footer />
             </div>

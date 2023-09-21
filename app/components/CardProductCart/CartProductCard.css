@@ -1,0 +1,25 @@
+.CartProduct-mainContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .CartProduct-image{
+    border-radius: 10;
+  }
+  .CartProduct-content{
+    display: flex;
+     flex-direction:row;
+     align-items: center;
+  }
+  
+  @media (max-width: 767px) {
+    .CartProduct-mainContainer{
+        flex-direction: column;
+    }
+    .CartProduct-content{
+        flex-direction: column;
+    }
+    .CartProduct-image{
+        height: 20vh;
+    }
+  }
+  

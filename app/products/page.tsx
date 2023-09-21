@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./Products.css";
 import Filter from "../components/filters/Filter";
-import Product from "../components/Product/Product";
+import Product from "../components/ProductCard/ProductCard";
 import axios from "axios";
 
 export default function Products() {

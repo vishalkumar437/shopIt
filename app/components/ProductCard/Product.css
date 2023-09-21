@@ -1,0 +1,25 @@
+.Product-mainContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .Product-image{
+    border-radius: 10;
+  }
+  .Product-content{
+    display: flex;
+     flex-direction:row;
+     align-items: center;
+  }
+  
+  @media (max-width: 767px) {
+    .Product-mainContainer{
+        flex-direction: column;
+    }
+    .Product-content{
+        flex-direction: column;
+    }
+    .Product-image{
+        height: 20vh;
+    }
+  }
+  

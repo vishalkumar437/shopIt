@@ -10,11 +10,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-interface category {
-  title: string;
-  icon: any;
-  subcategory: string[];
-}
+// interface category {
+//   title: string;
+//   icon: any;
+//   subcategory: string[];
+// }
 export default function Category() {
   const categories = [
     { title: "Fashion", icon: fashion,category:"fashion", subcategory: [] },
