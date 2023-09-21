@@ -85,3 +85,27 @@ module.exports.userLogin = async (req,res)=>{
   });
 
 }
+
+module.exports.getUser = async (req,res)=>{
+    const id = req.params.id;
+    console.log(id);
+    userModule.findById(id)
+      .then((result)=>{
+        if(result === null){
+          res.sendStatus(404);
+          return;
+        }
+        else{
+          console.log(result)
+          res.status(200).send({
+            name: result.name,
+            cart: result.cart,
+        });
+        }
+      })
+      .catch(err=>{
+        res.status(400).send({
+          error:err
+        })
+      })
+}
