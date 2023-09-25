@@ -22,7 +22,7 @@ export default function RootLayout({
         <ClientCookiesProvider value={cookies().getAll()}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <NavBar />
-            <ProviderWrapper children={children}/>
+            <ProviderWrapper>{children}</ProviderWrapper>
             <div>
               <Footer />
             </div>
