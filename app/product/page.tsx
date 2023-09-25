@@ -16,7 +16,7 @@ import "./Product.css";
 import Carousel from "../components/carousel/Carousel";
 import { useSelector } from "react-redux";
 import { AppState } from "../interface/interface";
-export default function page() {
+export default function Product() {
   const [products, setProducts] = useState<product>();
   const [loading, setLoading] = useState(true);
   const [carouselImages, setCarouselImages] = useState<

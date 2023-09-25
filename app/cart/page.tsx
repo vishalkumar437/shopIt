@@ -6,17 +6,18 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { AppState } from "../interface/interface";
 
-export default function page() {
-  const [cartDetails, setCartDetails] = useState();
-  
-  const userInfo = useSelector((state: AppState) => state.auth);
+export default function Cart() {
+    
+const [cartDetails, setCartDetails] = useState();
+
+const userInfo = useSelector((state: AppState) => state.auth);
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('id');
+        const userId = urlParams.get("id");
         const response = await axios.get(`http://localhost:3000/getcart`, {
-          params: { userId: userId }
+          params: { userId: userId },
         });
         setCartDetails(response.data.cart);
       } catch (error) {
@@ -25,8 +26,8 @@ export default function page() {
     };
     fetchCart();
   }, []);
-  if(!userInfo.isLoggedIn){
-    return <p>Login First</p>
+  if (!userInfo.isLoggedIn) {
+    return <p>Login First</p>;
   }
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
