@@ -44,6 +44,7 @@ export interface LogoutAction {
 
 // Define initial state
 export interface AppState {
+  auth: AppState;
   isLoggedIn: boolean;
   isSeller: boolean;
   userInfo: { name: string,id:string } | null;

@@ -10,15 +10,15 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, sellerLogin, userLogin } from "../action";
 import { useCookies } from "next-client-cookies";
+import { AppState } from "../interface/interface";
 const Navbar = ({ isLoginClicked }: any) => {
   const dispatch = useDispatch();
   const Cookies = useCookies();
-  const userInfo = useSelector((state: any) => state);
-  console.log(userInfo);
+  const userInfo = useSelector((state: AppState) => state.auth);
   const handleLoginClick = () => {
     isLoginClicked();
   };
-  const showLogoutAndUser = userInfo.auth;
+  const showLogoutAndUser = userInfo;
   const handleLogout = () => {
     Cookies.remove('isLoggedIn');
     Cookies.remove('userDetails');
@@ -79,7 +79,7 @@ const Navbar = ({ isLoginClicked }: any) => {
                 <Button variant="contained">Add Product</Button>
               </Link>
             ) : (
-              <Link className="Nav-Link" href="/cart">
+              <Link className="Nav-Link" href={`/cart?id=${userInfo.userInfo?.id}`}>
                 <ShoppingBagIcon fontSize="large" />
               </Link>
             )}

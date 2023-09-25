@@ -7,8 +7,9 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Button from "@mui/material/Button";
 import ControlPointRoundedIcon from "@mui/icons-material/ControlPointRounded";
 import TextField from "@mui/material/TextField";
-export default function CardProductCart() {
+export default function CardProductCart(cart:any) {
   const [quantity, setQuantity] = useState<number>(1);
+  console.log(cart)
   const products = [
     {
       name: "Moto G84 12GB RAM ",

@@ -6,28 +6,18 @@ import Box from '@mui/material/Box';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { Button } from '@mui/joy';
+import { useEffect } from 'react';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const images = [
-  {
-    label: 'Sale Buy Now',
-    imgPath:
-      'https://t3.ftcdn.net/jpg/00/74/80/30/360_F_74803077_tAM730fGIeVYoFTDLTgt8AIMXZCqh1rQ.jpg',
-  },
-  {
-    label: 'Limited Offer',
-    imgPath:
-      'https://t4.ftcdn.net/jpg/04/62/25/91/240_F_462259136_ieLHu3BL11q66HMrKFTtzleU8QPPmEOT.jpg',
-  },
-  {
-    label: 'Buy Now',
-    imgPath:
-      'https://t3.ftcdn.net/jpg/02/34/57/98/240_F_234579858_78QgXcVOI3b4DPCBuGuudFzIGygA1aWz.jpg',
-  },
-];
 
-function SwipeableTextMobileStepper() {
+function SwipeableTextMobileStepper(props:any) {
+  const [h,setH] = React.useState(0);
+  const [images,setImages] = React.useState([{label:'',imgPath:''}]);
+  useEffect(()=>{
+    setH(props.height);
+    setImages(props.img);
+  },[]);
   const theme = useTheme();
   const maxSteps = images.length;
   const handleNext = () => {
@@ -67,7 +57,7 @@ function SwipeableTextMobileStepper() {
             <Box
               component="img"
               sx={{
-                height: 255,
+                height: h,
                 width: '100%',
                 overflow: 'hidden',
               }}

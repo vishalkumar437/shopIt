@@ -40,6 +40,16 @@ module.exports.updateProductQuantity = async (req, res) => {
             return res.status(404).json({ message: 'Cart not found' });
         }
 
+        if (newQuantity === 0) {
+            const updatedCartWithRemovedProduct = await cartSchema.findOneAndUpdate(
+                { userId: userId },
+                { $pull: { products: { id: productId } } },
+                { new: true }
+            );
+
+            return res.json(updatedCartWithRemovedProduct);
+        }
+
         const updatedCart = await cartSchema.findOneAndUpdate(
             { userId: userId, 'products.id': productId },
             { $set: { 'products.$.quantity': newQuantity } },
@@ -55,3 +65,19 @@ module.exports.updateProductQuantity = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+
+module.exports.getCart = async (req,res)=>{
+    const id = req.query.userId;
+    console.log(id)
+    cartSchema.find({userId:id}).then((result)=>{
+        console.log(result)
+        res.status(200).send({
+            cart:result
+        })
+    }).catch((error)=>{
+        res.status(400).send({
+            error:error
+        })
+    })
+}
