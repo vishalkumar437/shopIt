@@ -82,7 +82,7 @@ export default function Product() {
           margin: "20px",
         }}
       >
-        <Carousel height={300} img={carouselImages} />
+        <Carousel height={400} img={carouselImages} />
       </Box>
       <Box sx={{ margin: "10px" }}>
         <Typography sx={{ paddingBottom: "10px", fontSize: "2em" }}>

@@ -2,7 +2,7 @@ const cloudinary = require('cloudinary').v2;
 const util = require('util');
 const productSchema = require("../schema/product");
 const rimraf = require("rimraf");
-const { response } = require('express');
+// const { response } = require('express');
 const cloudinaryUploadAsync = util.promisify(cloudinary.uploader.upload);
 cloudinary.config({
     cloud_name: 'dlbf4uryg',
@@ -13,8 +13,9 @@ cloudinary.config({
 module.exports.insertProduct = async (req, res) => {
     const name = req.body.name;
     const description = req.body.description;
-    const seller = req.body.seller[1];
-    let file = req.files
+    const sellerId = req.body.sellerId;
+    const sellerName = req.body.sellerName;
+    let file = req.files;
     const price = req.body.price;
     const subcategory = req.body.subcategory.toLowerCase();
     const category = req.body.category.toLowerCase();
@@ -29,7 +30,7 @@ module.exports.insertProduct = async (req, res) => {
         imageArray = [file.images];
     }
 
-    const uploadPromises = imageArray.map(async (image, index) => {
+    const uploadPromises = imageArray.map(async (image) => {
         try {
             const result = await cloudinaryUploadAsync(image.tempFilePath, {
                 folder: category + '/' + subcategory + '/' + name,
@@ -51,7 +52,7 @@ module.exports.insertProduct = async (req, res) => {
         name: name,
         description: descriptionSplitter(description),
         imageurl: imagesUrl,
-        seller: seller,
+        seller: { id: sellerId, name: sellerName },
         price: price,
         category: category,
         stock: stock,
@@ -70,18 +71,18 @@ module.exports.insertProduct = async (req, res) => {
             })
         });
 }
-module.exports.getProductById = async(req,res)=>{
+module.exports.getProductById = async (req, res) => {
     let id = req.query.id;
-    productSchema.findById(id).then((result)=>{
+    productSchema.findById(id).then((result) => {
         res.status(200).json({
-            product:result
+            product: result,
         })
     })
-    .catch((error)=>{
-        res.status(404).send({
-            error:error
+        .catch((error) => {
+            res.status(404).send({
+                error: error
+            })
         })
-    })
 }
 module.exports.getProductByCategory = async (req, res) => {
     let category = req.query.category;

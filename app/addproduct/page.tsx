@@ -9,7 +9,8 @@ const ProductForm = () => {
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
-    seller: '',
+    sellerId: '',
+    sellerName:'',
     images: [],
     price: '',
     category: '',
@@ -17,12 +18,12 @@ const ProductForm = () => {
     stock: ''
   });
   const sellerInfo = useSelector((state:any)=>state.auth);
-  console.log(sellerInfo);
   if (!sellerInfo.userInfo || !sellerInfo.isSeller) {
     <Alert severity='error'>Please Login as a Seller</Alert>
     router.push('/');
     return null; // Return null to prevent rendering of the form
   }
+  console.log(sellerInfo.userInfo.name);
   const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData({
@@ -44,7 +45,8 @@ const ProductForm = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('name', formData.name);
     formDataToSend.append('description', formData.description);
-    formDataToSend.append('seller', sellerInfo.userInfo.id);
+    formDataToSend.append('sellerId', sellerInfo.userInfo.id);
+    formDataToSend.append('sellerName', sellerInfo.userInfo.name);
     formData.images.forEach((image, index) => {
       formDataToSend.append(`images`, image);
     });

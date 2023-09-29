@@ -50,15 +50,15 @@ function SwipeableTextMobileStepper(props:any) {
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
-        containerStyle={{ maxWidth: '100%' }}
       >
-        {images.map((step, index) => (
-          <Box key={step.label} sx={{ width: '100%', position: 'relative' }}>
+        {images.map((step) => (
+          <Box key={step.label} sx={{ position: 'relative' }}>
             <Box
               component="img"
               sx={{
                 height: h,
                 width: '100%',
+                // objectFit:'fill',
                 overflow: 'hidden',
               }}
               src={step.imgPath}

@@ -7,10 +7,8 @@ import { useSelector } from "react-redux";
 import { AppState } from "../interface/interface";
 
 export default function Cart() {
-    
-const [cartDetails, setCartDetails] = useState();
-
-const userInfo = useSelector((state: AppState) => state.auth);
+  const [cartDetails, setCartDetails] = useState();
+  const userInfo = useSelector((state: AppState) => state.auth);
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -38,7 +36,7 @@ const userInfo = useSelector((state: AppState) => state.auth);
           width: "50vw",
         }}
       >
-        <CardProductCart cart={cartDetails} />
+        {cartDetails && <CardProductCart cart={cartDetails} />}
       </Box>
       <Box
         sx={{

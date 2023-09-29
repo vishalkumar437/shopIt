@@ -9,10 +9,27 @@ export interface userInfo{
     id:string;
 }
 
+export interface Product {
+  item: any;
+  name: string;
+  description: string[];
+  imageurl: string[];
+  seller: {
+    id: string;
+    name: string;
+  };
+  category: string;
+  subcategory: string;
+  price: string;
+  stock: string;
+};
+
+
 export interface ProductFormData {
   name: string;
   description: string;
-  seller: string;
+  sellerId: string;
+  sellerName:string;
   images: File[];
   price: string;
   category: string;
@@ -44,7 +61,7 @@ export interface LogoutAction {
 
 // Define initial state
 export interface AppState {
-  auth: AppState;
+  auth: any;
   isLoggedIn: boolean;
   isSeller: boolean;
   userInfo: { name: string,id:string } | null;

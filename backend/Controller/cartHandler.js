@@ -1,38 +1,50 @@
 const cartSchema = require("../schema/cart");
-
+const mongoose = require("mongoose");
 
 module.exports.addProductInCart = async (req, res) => {
     const productId = req.body.productId;
     const userId = req.body.userId;
     const quantity = 1;
 
-    // Find the user's cart
-    const cart = await cartSchema.findOne({ userId: userId });
+    try {
+        // Find the user's cart
+        const cart = await cartSchema.findOne({ userId: userId });
 
-    if (cart === null) {
-        // If cart doesn't exist, create a new one
-        const newCart = await cartSchema.create({
-            products: [{ id: productId, quantity: quantity }],
-            userId: userId
-        });
-        return res.json(newCart);
+        if (cart === null) {
+            // If cart doesn't exist, create a new one
+            const newCart = await cartSchema.create({
+                products: [{ id: productId, quantity: quantity }],
+                userId: userId
+            });
+            return res.json(newCart);
+        }
+
+        // If cart already exists, check if productId exists
+        const productIndex = cart.products.findIndex(item =>
+            item.id.equals(new mongoose.Types.ObjectId(productId)));
+        // console.log(produc)
+        if (productIndex !== -1) {
+            // If productId exists, update quantity
+            cart.products[productIndex].quantity += quantity;
+        } else {
+            // If productId doesn't exist, add new entry
+            cart.products.push({ id: productId, quantity: quantity });
+        }
+
+        const updatedCart = await cart.save();
+        return res.json(updatedCart);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
-
-    // If cart already exists, update it
-    const updatedCart = await cartSchema.findOneAndUpdate(
-        { userId: userId },
-        { $push: { products: { id: productId, quantity: quantity } } },
-        { new: true }
-    );
-    return res.json(updatedCart);
 };
+
 
 
 module.exports.updateProductQuantity = async (req, res) => {
     const productId = req.body.productId;
     const userId = req.body.userId;
     const newQuantity = req.body.quantity;
-
     try {
         const cart = await cartSchema.findOne({ userId: userId });
 
@@ -57,6 +69,7 @@ module.exports.updateProductQuantity = async (req, res) => {
         );
 
         if (updatedCart === null) {
+            console.log("not found")
             return res.status(404).json({ message: 'Product not found in cart' });
         }
 
@@ -67,17 +80,16 @@ module.exports.updateProductQuantity = async (req, res) => {
 };
 
 
-module.exports.getCart = async (req,res)=>{
+module.exports.getCart = async (req, res) => {
     const id = req.query.userId;
-    console.log(id)
-    cartSchema.find({userId:id}).then((result)=>{
-        console.log(result)
+    cartSchema.find({ userId: id }).then((result) => {
+        // console.log(result)
         res.status(200).send({
-            cart:result
+            cart: result[0]
         })
-    }).catch((error)=>{
+    }).catch((error) => {
         res.status(400).send({
-            error:error
+            error: error
         })
     })
 }
