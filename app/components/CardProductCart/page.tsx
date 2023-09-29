@@ -79,12 +79,12 @@ export default function CardProductCart(cart: any) {
                 height={100}
               />
               <Box sx={{ padding: "10px" }}>
-                <Typography>{product.item.name}</Typography>
-                <Typography sx={{ fontSize: "12px" }}>
+                <Typography sx={{fontSize:"20px",fontWeight:"bold"}}>{product.item.name}</Typography>
+                <Typography sx={{fontSize:"15px"}}>
                   Seller: {product.item.seller.name}
                 </Typography>
-                <Typography>
-                  {product.item.price} {"/-"}
+                <Typography> ₹
+                  {new Intl.NumberFormat().format(product.item.price)} {"/-"}
                 </Typography>
               </Box>
             </div>

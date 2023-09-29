@@ -1,13 +1,13 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, Typography,Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CardProductCart from "../components/CardProductCart/page";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { AppState } from "../interface/interface";
-
+import { AppState, Cart } from "../interface/interface";;
+import "./Cart.css"
 export default function Cart() {
-  const [cartDetails, setCartDetails] = useState();
+  const [cartDetails, setCartDetails] = useState<Cart>();
   const userInfo = useSelector((state: AppState) => state.auth);
   useEffect(() => {
     const fetchCart = async () => {
@@ -18,6 +18,7 @@ export default function Cart() {
           params: { userId: userId },
         });
         setCartDetails(response.data.cart);
+        console.log(response.data.cart);
       } catch (error) {
         console.log(error);
       }
@@ -28,12 +29,16 @@ export default function Cart() {
     return <p>Login First</p>;
   }
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      className="Cart-MainContainer"
+    >
       <Box
         sx={{
           backgroundColor: "#ccccc0",
-          height: "70vh",
-          width: "50vw",
+          width: "100%",
+          maxWidth: "600px",
+          padding: "16px",
+          position: "relative",
         }}
       >
         {cartDetails && <CardProductCart cart={cartDetails} />}
@@ -41,10 +46,29 @@ export default function Cart() {
       <Box
         sx={{
           backgroundColor: "lightgrey",
-          height: "70vh",
-          width: "30vw",
+          width: "100%",
+          maxWidth: "400px",
         }}
-      ></Box>
+      >
+        <Typography variant="h5" sx={{padding:"10px"}}>Price Details</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: "20px",
+          }}
+        >
+          <Typography variant="h5">Total Amount </Typography>
+          <Typography variant="h6">
+            {" "}
+            ₹ {new Intl.NumberFormat().format(cartDetails?.amount || 0)}/-
+          </Typography>
+        </Box>
+        <Box sx={{ textAlign: "center"}}>
+          <Button variant="outlined" size="large">Buy Now</Button>
+        </Box>
+      </Box>
     </div>
   );
 }

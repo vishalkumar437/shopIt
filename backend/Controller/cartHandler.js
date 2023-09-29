@@ -1,20 +1,22 @@
 const cartSchema = require("../schema/cart");
+const productSchema = require("../schema/product");
 const mongoose = require("mongoose");
 
 module.exports.addProductInCart = async (req, res) => {
     const productId = req.body.productId;
     const userId = req.body.userId;
     const quantity = 1;
-
     try {
         // Find the user's cart
         const cart = await cartSchema.findOne({ userId: userId });
-
+        const amount = await productSchema.findById(productId);
         if (cart === null) {
             // If cart doesn't exist, create a new one
+            
             const newCart = await cartSchema.create({
                 products: [{ id: productId, quantity: quantity }],
-                userId: userId
+                userId: userId,
+                amount:amount.price*quantity
             });
             return res.json(newCart);
         }
@@ -22,13 +24,14 @@ module.exports.addProductInCart = async (req, res) => {
         // If cart already exists, check if productId exists
         const productIndex = cart.products.findIndex(item =>
             item.id.equals(new mongoose.Types.ObjectId(productId)));
-        // console.log(produc)
         if (productIndex !== -1) {
             // If productId exists, update quantity
             cart.products[productIndex].quantity += quantity;
+            cart.amount+=quantity*amount.price;
         } else {
             // If productId doesn't exist, add new entry
             cart.products.push({ id: productId, quantity: quantity });
+            cart.amount += amount.price * quantity;
         }
 
         const updatedCart = await cart.save();
@@ -47,7 +50,7 @@ module.exports.updateProductQuantity = async (req, res) => {
     const newQuantity = req.body.quantity;
     try {
         const cart = await cartSchema.findOne({ userId: userId });
-
+        const amount = await productSchema.findById(productId);
         if (cart === null) {
             return res.status(404).json({ message: 'Cart not found' });
         }
@@ -64,7 +67,7 @@ module.exports.updateProductQuantity = async (req, res) => {
 
         const updatedCart = await cartSchema.findOneAndUpdate(
             { userId: userId, 'products.id': productId },
-            { $set: { 'products.$.quantity': newQuantity } },
+            { $set: { 'products.$.quantity': newQuantity, 'amount':amount.price*newQuantity } },
             { new: true }
         );
 

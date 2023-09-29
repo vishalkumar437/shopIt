@@ -1,14 +1,14 @@
-import { AppState,UserLoginAction,SellerLoginAction,LogoutAction } from "../interface/interface";
+import { InitialAppState,UserLoginAction,SellerLoginAction,LogoutAction } from "../interface/interface";
 
 type ActionTypes = UserLoginAction | SellerLoginAction | LogoutAction;
-  const initialState: AppState = {
+  const initialState: InitialAppState = {
     isLoggedIn: false,
     isSeller: false,
     userInfo: null
   };
   
   // Define the reducer
-  const authReducer = (state: AppState = initialState, action: ActionTypes): AppState => {
+  const authReducer = (state: InitialAppState = initialState, action: ActionTypes): InitialAppState => {
     switch (action.type) {
       case 'USER_LOGIN':
         return {

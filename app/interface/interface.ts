@@ -24,6 +24,20 @@ export interface Product {
   stock: string;
 };
 
+export interface Cart {
+  _id: string;
+  products: CartProduct[];
+  userId: string;
+  amount: number;
+  __v: number;
+}
+
+export interface CartProduct {
+  id: string;
+  quantity: number;
+  _id: string;
+}
+
 
 export interface ProductFormData {
   name: string;
@@ -58,10 +72,15 @@ export interface LogoutAction {
   type: "LOGOUT";
 }
 
-
-// Define initial state
 export interface AppState {
   auth: any;
+  isLoggedIn: boolean;
+  isSeller: boolean;
+  userInfo: { name: string,id:string } | null;
+}
+
+// Define initial state
+export interface InitialAppState {
   isLoggedIn: boolean;
   isSeller: boolean;
   userInfo: { name: string,id:string } | null;
