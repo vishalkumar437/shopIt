@@ -27,7 +27,7 @@ interface CheckoutCardsProps {
   children: React.ReactNode;
   cardType: 'Address' | 'Payment';
 }
-export default function CheckoutCards({ children,cardType }: CheckoutCardsProps) {
+const CheckoutCards =({ children,cardType }: CheckoutCardsProps)=> {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -53,3 +53,4 @@ export default function CheckoutCards({ children,cardType }: CheckoutCardsProps)
     </Card>
   );
 }
+export default CheckoutCards;
