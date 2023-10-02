@@ -30,6 +30,8 @@ module.exports.newOrder = async (req, res) => {
             { $push: { address: addressResponse._id } }, 
             { new: true }
         );
+
+        // For COD
         if(paymentMethod=='COD'){
             const cart =await cartSchema.findById(cartId);
             const ordersResponse = await orders.create({
@@ -47,9 +49,16 @@ module.exports.newOrder = async (req, res) => {
                 })
             })
         }
+
+        if(paymentMethod==='stripe'){
+            
+        }
+
     }
     catch (error) {
-        console.log(error)
+        res.status(500).send({
+            error:error
+        })
     }
 
 }
