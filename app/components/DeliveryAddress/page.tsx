@@ -1,6 +1,10 @@
 import { Container, Grid, TextField, Button } from '@mui/material';
 
-const DeliveryForm = () => {
+const DeliveryForm = ({set}:any) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    set((prevState: any) => ({ ...prevState, [name]: value }));
+  };
   return (
     <Container maxWidth="sm">
       <form>
@@ -10,7 +14,9 @@ const DeliveryForm = () => {
               fullWidth
               label="Full Name"
               variant="outlined"
+              name="fullName"
               required
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -18,7 +24,9 @@ const DeliveryForm = () => {
               fullWidth
               label="Address"
               variant="outlined"
+              name="address"
               required
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -26,7 +34,9 @@ const DeliveryForm = () => {
               fullWidth
               label="City"
               variant="outlined"
+              name="city"
               required
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -34,7 +44,9 @@ const DeliveryForm = () => {
               fullWidth
               label="Pincode"
               variant="outlined"
+              name="pincode"
               required
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -42,7 +54,9 @@ const DeliveryForm = () => {
               fullWidth
               label="Phone Number"
               variant="outlined"
+              name="phone"
               required
+              onChange={handleInputChange}
             />
           </Grid>
         </Grid>

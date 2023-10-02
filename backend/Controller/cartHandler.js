@@ -1,7 +1,7 @@
 const cartSchema = require("../schema/cart");
 const productSchema = require("../schema/product");
 const mongoose = require("mongoose");
-
+const userSchema = require("../schema/user");
 module.exports.addProductInCart = async (req, res) => {
     const productId = req.body.productId;
     const userId = req.body.userId;
@@ -18,6 +18,11 @@ module.exports.addProductInCart = async (req, res) => {
                 userId: userId,
                 amount:amount.price*quantity
             });
+            const updatedUser = await userSchema.findOneAndUpdate(
+                { _id: userId },
+                { cart: newCart._id }, 
+                { new: true }
+            );
             return res.json(newCart);
         }
 

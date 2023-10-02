@@ -2,6 +2,8 @@ const { default: mongoose } = require("mongoose");
 const mongo = require("mongoose");
 const {isEmail} = require("validator");
 const cartSchema = require("./cart");
+const orders = require("./orders");
+const address = require("./address");
 const userSchema = new mongo.Schema({
     email: {
         type: String,
@@ -22,7 +24,14 @@ const userSchema = new mongo.Schema({
         type: mongoose.Types.ObjectId,
         ref: cartSchema
     },
-    address: {},
+    address: [{
+        type:mongoose.Types.ObjectId,
+        ref:address
+    }],
+    orders:[{
+        type:mongoose.Types.ObjectId,
+        ref:orders
+    }]
 });
 
 module.exports = mongo.model("user",userSchema);

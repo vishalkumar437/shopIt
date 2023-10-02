@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { AppState, Cart } from "../interface/interface";;
 import "./Cart.css"
+import Link from "next/link";
 export default function Cart() {
   const [cartDetails, setCartDetails] = useState<Cart>();
   const userInfo = useSelector((state: AppState) => state.auth);
@@ -65,9 +66,9 @@ export default function Cart() {
             ₹ {new Intl.NumberFormat().format(cartDetails?.amount || 0)}/-
           </Typography>
         </Box>
-        <Box sx={{ textAlign: "center"}}>
-          <Button variant="outlined" size="large">Buy Now</Button>
-        </Box>
+        <Link style={{display:"flex",justifyContent:"center",textDecoration:"none"}} href={`/checkout?id=${cartDetails?._id}`}>
+          <Button variant="outlined" size="large">Checkout</Button>
+        </Link>
       </Box>
     </div>
   );

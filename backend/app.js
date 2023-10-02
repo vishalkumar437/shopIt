@@ -6,6 +6,7 @@ const userRoute= require("./router/userRoute");
 const productRoute = require("./router/productRoute");
 const sellerRoute = require("./router/sellerRoute");
 const cartRoute = require("./router/cartRoute");
+const ordersRoute = require("./router/ordersRoute");
 const dotenv=require('dotenv');
 const cors = require('cors');
 const fileUpload = require('express-fileupload')
@@ -31,6 +32,7 @@ app.use(userRoute);
 app.use(sellerRoute);
 app.use(productRoute);
 app.use(cartRoute);
+app.use(ordersRoute);
 
 app.use((req,res)=>{
     res.status(404).json({
