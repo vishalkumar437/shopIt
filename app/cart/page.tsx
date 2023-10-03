@@ -15,7 +15,7 @@ export default function Cart() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get("id");
-        const response = await axios.get(`${process.env.API_LINK}/getcart`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/getcart`, {
           params: { userId: userId },
         });
         setCartDetails(response.data.cart);

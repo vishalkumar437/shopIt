@@ -32,7 +32,7 @@ export default function Products() {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('category');
 
-        const response = await axios.get(`${process.env.API_LINK}/products`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/products`, {
           params: { category: category }
         });
         setProducts(response.data.product);

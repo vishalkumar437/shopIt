@@ -29,7 +29,7 @@ export default function Product() {
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get("id");
         await axios
-          .get(`${process.env.API_LINK}/product`, {
+          .get(`${process.env.NEXT_PUBLIC_API_LINK}/product`, {
             params: { id: id },
           })
           .then((res) => {
@@ -59,7 +59,7 @@ export default function Product() {
       userId: userid,
       productId: pid,
     };
-    axios.put(`${process.env.API_LINK}/addtocart`, data).then((result) => {
+    axios.put(`${process.env.NEXT_PUBLIC_API_LINK}/addtocart`, data).then((result) => {
       console.log(result);
     })
     .catch((error)=>{

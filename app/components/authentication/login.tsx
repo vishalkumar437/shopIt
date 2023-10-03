@@ -42,8 +42,8 @@ function Login({ isLogin, isLoginClicked }: any) {
       password: formData.password,
     };
     const link = isUser
-      ? `${process.env.API_LINK}/userLogin`
-      : `${process.env.API_LINK}/sellerLogin`;
+      ? `${process.env.NEXT_PUBLIC_API_LINK}/userLogin`
+      : `${process.env.NEXT_PUBLIC_API_LINK}/sellerLogin`;
     axios
       .post(link, data, {
         headers: { "Access-Control-Allow-Origin": "*" },

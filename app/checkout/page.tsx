@@ -26,7 +26,7 @@ const Checkout = () => {
     if (paymentMethod === "COD") {
       try {
         const response = await axios.post(
-          `${process.env.API_LINK}/newOrder`,
+          `${process.env.NEXT_PUBLIC_API_LINK}/newOrder`,
           data
         );
         if (response.status === 200) {
@@ -43,7 +43,7 @@ const Checkout = () => {
     } else {
       const stripe = await loadStripe(`${process.env.STRIPE_KEY}`)
       const stripeResponse = await axios
-        .post(`${process.env.API_LINK}/stripe/create-checkout-session`, data)
+        .post(`${process.env.NEXT_PUBLIC_API_LINK}/stripe/create-checkout-session`, data)
         .then((response: { data: { sessionId: string } }) => {
             stripe?.redirectToCheckout({
               sessionId:response.data.sessionId

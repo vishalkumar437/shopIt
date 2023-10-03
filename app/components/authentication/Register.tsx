@@ -37,8 +37,8 @@ function Register({ isLogin, isLoginClicked }: any) {
       password: formData.password,
     };
     const link = isUser
-      ? `${process.env.API_LINK}/createUser`
-      : `${process.env.API_LINK}/createseller`;
+      ? `${process.env.NEXT_PUBLIC_API_LINK}/createUser`
+      : `${process.env.NEXT_PUBLIC_API_LINK}/createseller`;
     console.log(data);
     axios
       .post(link, data, {

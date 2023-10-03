@@ -13,7 +13,7 @@ export default function CardProductCart(cart: any) {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     const fetchProductData = async (product: any) => {
-      const result = await axios.get(`${process.env.API_LINK}/product`, {
+      const result = await axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/product`, {
         params: { id: product.id },
       });
       return {
@@ -49,7 +49,7 @@ export default function CardProductCart(cart: any) {
       userId:cart.cart.userId,
       quantity:product.quantity
     }
-    await axios.post(`${process.env.API_LINK}/updateProductQuantity`,data)
+    await axios.post(`${process.env.NEXT_PUBLIC_API_LINK}/updateProductQuantity`,data)
   };
   
 
