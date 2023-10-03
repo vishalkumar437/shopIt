@@ -22,13 +22,13 @@ module.exports.stripeHandler = async (req, res) => {
             quantity: productId.quantity
         }
     }));
-
     const session = await stripe.checkout.sessions.create({
-      line_items,
-      mode: 'payment',
-      customer: address.userId,
-      success_url: `${process.env.MY_DOMAIN}/success`,
-      cancel_url: `${process.env.MY_DOMAIN}/cancel`,
+        line_items,
+        mode: 'payment',
+        success_url: `${process.env.MY_DOMAIN}/success`,
+        cancel_url: `${process.env.MY_DOMAIN}/cancel`,
+    })
+    res.send({
+        sessionId: session.id
     });
-    res.send({url:session.url});
 }

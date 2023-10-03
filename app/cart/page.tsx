@@ -15,7 +15,7 @@ export default function Cart() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get("id");
-        const response = await axios.get(`http://localhost:3000/getcart`, {
+        const response = await axios.get(`${process.env.API_LINK}/getcart`, {
           params: { userId: userId },
         });
         setCartDetails(response.data.cart);
@@ -30,6 +30,7 @@ export default function Cart() {
     return <p>Login First</p>;
   }
   return (
+    
     <div
       className="Cart-MainContainer"
     >
@@ -66,9 +67,9 @@ export default function Cart() {
             ₹ {new Intl.NumberFormat().format(cartDetails?.amount || 0)}/-
           </Typography>
         </Box>
-        <Link style={{display:"flex",justifyContent:"center",textDecoration:"none"}} href={`/checkout?id=${cartDetails?._id}`}>
+        {cartDetails && <Link style={{display:"flex",justifyContent:"center",textDecoration:"none"}} href={`/checkout?id=${cartDetails?._id}`}>
           <Button variant="outlined" size="large">Checkout</Button>
-        </Link>
+        </Link>}
       </Box>
     </div>
   );

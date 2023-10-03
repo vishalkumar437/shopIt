@@ -1,6 +1,4 @@
 const mongoose = require("mongoose")
-const userSchema = require("./user");
-const { number } = require("prop-types");
 const cartSchema = new mongoose.Schema({
     products: [{
         id: mongoose.Types.ObjectId,

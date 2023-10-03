@@ -1,26 +1,55 @@
 "use client";
 import React, { useState } from "react";
 import CheckoutCards from "../components/CheckoutCards/page";
+import CircularProgress from "@mui/material/CircularProgress";
 import DeliveryForm from "../components/DeliveryAddress/page";
 import CardPaymentDetails from "../components/CardPaymentDetails/page";
 import { Box, Button } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { AppState } from "../interface/interface";
+import { loadStripe } from "@stripe/stripe-js";
 const Checkout = () => {
   const [address, setAddress] = useState({});
+  const [loading, setLoading] = useState(false);
   const userId = useSelector((state: AppState) => state.auth.userInfo?.id);
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const urlParams = new URLSearchParams(window.location.search);
   const cartId = urlParams.get("id");
   const handleSubmit = async () => {
+    setLoading(true);
     const data = {
       address: { ...address, userId: userId },
       paymentMethod: paymentMethod,
       cartId: cartId,
     };
     if (paymentMethod === "COD") {
-      const response = await axios.post("http://localhost:3000/newOrder", data);
+      try {
+        const response = await axios.post(
+          `${process.env.API_LINK}/newOrder`,
+          data
+        );
+        if (response.status === 200) {
+          // Display success message and redirect
+          alert("Order successful!");
+          window.location.href = "/";
+        }
+      } catch (error) {
+        console.error("Error making payment:", error);
+        alert("Error making payment. Please try again.");
+      } finally {
+        setLoading(false); // Set loading state back to false after request completes
+      }
+    } else {
+      const stripe = await loadStripe(`${process.env.STRIPE_KEY}`)
+      const stripeResponse = await axios
+        .post(`${process.env.API_LINK}/stripe/create-checkout-session`, data)
+        .then((response: { data: { sessionId: string } }) => {
+            stripe?.redirectToCheckout({
+              sessionId:response.data.sessionId
+            })
+        })
+        .catch((err: { message: any }) => console.log(err.message));
     }
   };
   return (
@@ -35,15 +64,19 @@ const Checkout = () => {
         />
       </CheckoutCards>
       <Box sx={{ textAlign: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Make Payment
-        </Button>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            Make Payment
+          </Button>
+        )}
       </Box>
     </div>
   );

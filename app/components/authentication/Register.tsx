@@ -37,8 +37,8 @@ function Register({ isLogin, isLoginClicked }: any) {
       password: formData.password,
     };
     const link = isUser
-      ? "http://localhost:3000/createUser"
-      : "http://localhost:3000/createseller";
+      ? `${process.env.API_LINK}/createUser`
+      : `${process.env.API_LINK}/createseller`;
     console.log(data);
     axios
       .post(link, data, {

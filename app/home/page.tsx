@@ -27,7 +27,6 @@ export default function Landing() {
       <Category />
       <Carousel height={255} img={images} />
       <BestOf />
-      <BestOf />
     </Box>
   );
 }

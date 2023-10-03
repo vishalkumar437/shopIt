@@ -39,7 +39,7 @@ export default function Product(products: any) {
             }}
             className="Product-paper"
           >
-            <Link className="Product-content" href={`/product?id=${product.id}`}>
+            <Link className="Product-content" style={{textDecoration:"none"}}  href={`/product?id=${product.id}`}>
               
               <Image
                 src={ product.imageurl[0]}

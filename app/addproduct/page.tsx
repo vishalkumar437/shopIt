@@ -56,7 +56,7 @@ const ProductForm = () => {
     formDataToSend.append('stock', formData.stock);
 
     try {
-      const response = await fetch('http://localhost:3000/insertProduct', {
+      const response = await fetch(`${process.env.API_LINK}/insertProduct`, {
         method: 'POST',
         body: formDataToSend
       });

@@ -25,9 +25,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 interface CheckoutCardsProps {
   children: React.ReactNode;
-  cardType: 'Address' | 'Payment';
+  cardType: String;
 }
-const CheckoutCards =({ children,cardType }: CheckoutCardsProps)=> {
+const CheckoutCards =({ children,cardType }: any)=> {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
