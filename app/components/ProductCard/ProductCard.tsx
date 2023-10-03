@@ -47,6 +47,7 @@ export default function Product(products: any) {
                 className="Product-image"
                 width={150}
                 height={200}
+                style={{objectFit:"contain"}}
               />
               <Box ml={2} sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography variant="h6">{product.name}</Typography>
@@ -58,15 +59,16 @@ export default function Product(products: any) {
                     justifyContent: "center",
                     borderRadius: 8,
                     p: 1,
+                    width:"60px"
                   }}
                 >
                   {/* {product.rating} */} {4.5}
-                  <StarIcon />
+                  <StarIcon/>
                 </Typography>
               </Box>
 
               <List>
-                {product.description.map((spec:string, index:number) => (
+                {product.description.slice(0,3).map((spec:string, index:number) => (
                   <ListItem key={index} className="Product-specification">
                     <ListItemIcon>
                       <FiberManualRecordIcon />
@@ -75,7 +77,7 @@ export default function Product(products: any) {
                   </ListItem>
                 ))}
               </List>
-              <Typography variant="h6">
+              <Typography variant="h6" className="Product-price">
                 {product.price} {"/-"}
               </Typography>
             </Link>

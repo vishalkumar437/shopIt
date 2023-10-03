@@ -107,7 +107,11 @@ function Login({ isLogin, isLoginClicked }: any) {
         alignItems: "strech",
       }}
     >
-      <Button sx={{ position: "fixed", right: 0 }} onClick={handleClose}>
+      <Button sx={{
+        position: "absolute",
+        left:"68%",
+        zIndex: 1,
+      }} onClick={handleClose}>
         X
       </Button>
       <Box

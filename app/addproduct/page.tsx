@@ -1,11 +1,13 @@
 "use client"
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TextField, Button, Grid, Alert } from '@mui/material';
+import { TextField, Button, Grid, Alert,CircularProgress } from '@mui/material';
 import { ProductFormData } from '../interface/interface';
 import { useSelector } from 'react-redux';
 const ProductForm = () => {
   const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
@@ -63,12 +65,17 @@ const ProductForm = () => {
 
       if (response.ok) {
         const data = await response.json();
+        setSuccessMessage('Product Added');
+        setLoading
         console.log('Product Added:', data.new_product);
       } else {
         console.error('Error adding product:', response.statusText);
       }
     } catch (error) {
       console.error('Error adding product:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -80,7 +87,10 @@ const ProductForm = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '50px', minHeight:"80vh" }}>
+      {successMessage && (
+        <div style={{ marginBottom: '10px', color: 'green' }}>{successMessage}</div>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -176,9 +186,11 @@ const ProductForm = () => {
             />
           </Grid>
           <Grid item xs={12}>
+            {isLoading? <CircularProgress/>:
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
+            }
           </Grid>
         </Grid>
       </form>
