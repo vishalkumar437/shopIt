@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import Navbar from "./components/navbar";
 import AuthenticationPage from "./components/authentication/page";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./store/store";
 
 function NavBar() {
   const [isLoginOpen, setLoginOpen] = useState<boolean>(false);
-
   const handleLoginClick = () => {
     setLoginOpen(!isLoginOpen);
   };

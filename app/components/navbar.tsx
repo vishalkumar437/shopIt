@@ -1,18 +1,19 @@
-// "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import logo from "../../public/shoppit.png";
 import Image from "next/image";
 import searchIcon from "../../public/searchicon.png";
 import Link from "next/link";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import { Button } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, sellerLogin, userLogin } from "../action";
 import { useCookies } from "next-client-cookies";
 import { AppState } from "../interface/interface";
+import axios from "axios";
 const Navbar = ({ isLoginClicked }: any) => {
   const dispatch = useDispatch();
+  const [cartQuantity,setCartQuantity] = useState(0);
   const Cookies = useCookies();
   const userInfo = useSelector((state: AppState) => state.auth);
   const handleLoginClick = () => {
@@ -22,7 +23,7 @@ const Navbar = ({ isLoginClicked }: any) => {
   const handleLogout = () => {
     Cookies.remove('isLoggedIn');
     Cookies.remove('userDetails');
-    dispatch(logout()); // Dispatch the logout action
+    dispatch(logout()); 
   };
   useEffect(()=>{
     const storeCookie = Cookies.get();
@@ -44,8 +45,14 @@ const Navbar = ({ isLoginClicked }: any) => {
           })
         );
       }
+      axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/getCart`,{
+        params: { userId: userDetails.id },
+      }).then((result)=>{
+        setCartQuantity(result.data.cart.products.length)
+      })
     }
-  },[])
+    
+  },[cartQuantity])
   
 
   return (
@@ -80,7 +87,9 @@ const Navbar = ({ isLoginClicked }: any) => {
               </Link>
             ) : (
               <Link className="Nav-Link" href={`/cart?id=${userInfo.userInfo?.id}`}>
-                <ShoppingBagIcon fontSize="large" />
+                <Badge badgeContent={cartQuantity} color="error"> {/* Adjust the content dynamically */}
+                  <ShoppingBagIcon fontSize="large" />
+                </Badge>
               </Link>
             )}
           </>
