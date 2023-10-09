@@ -102,3 +102,23 @@ module.exports.getProductByCategory = async (req, res) => {
             })
         })
 }
+
+module.exports.searchProductByName = async(req,res)=>{
+    let productName = req.body.productName;
+    // console.log(productName);
+    productSchema.find({name:{ '$regex' : productName, '$options' : 'i' }}).then((result) => {
+        result = result.map(product => ({
+            ...product._doc,
+            id: product._id
+        }));
+        console.log(result);
+        res.status(200).json({
+            product: result
+        });
+    })
+    .catch((error) => {
+        res.status(200).json({
+            error: error
+        })
+    })
+}

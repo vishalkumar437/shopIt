@@ -13,7 +13,9 @@ import { AppState } from "../interface/interface";
 import axios from "axios";
 const Navbar = ({ isLoginClicked }: any) => {
   const dispatch = useDispatch();
-  const [cartQuantity,setCartQuantity] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0);
+  const [productName, setProductName] = useState({});
+  const [searchResults, setSearchResults] = useState([]);
   const Cookies = useCookies();
   const userInfo = useSelector((state: AppState) => state.auth);
   const handleLoginClick = () => {
@@ -21,23 +23,22 @@ const Navbar = ({ isLoginClicked }: any) => {
   };
   const showLogoutAndUser = userInfo;
   const handleLogout = () => {
-    Cookies.remove('isLoggedIn');
-    Cookies.remove('userDetails');
-    dispatch(logout()); 
+    Cookies.remove("isLoggedIn");
+    Cookies.remove("userDetails");
+    dispatch(logout());
   };
-  useEffect(()=>{
+  useEffect(() => {
     const storeCookie = Cookies.get();
-    if(storeCookie.isLoggedIn){
-      const userDetails = JSON.parse(storeCookie.userDetails)
-      if(userDetails.isSeller){
+    if (storeCookie.isLoggedIn) {
+      const userDetails = JSON.parse(storeCookie.userDetails);
+      if (userDetails.isSeller) {
         dispatch(
           sellerLogin({
             name: userDetails.name,
             id: userDetails.id,
           })
         );
-      }
-      else{
+      } else {
         dispatch(
           userLogin({
             name: userDetails.name,
@@ -45,15 +46,43 @@ const Navbar = ({ isLoginClicked }: any) => {
           })
         );
       }
-      axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/getCart`,{
-        params: { userId: userDetails.id },
-      }).then((result)=>{
-        setCartQuantity(result.data.cart.products.length)
-      })
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API_LINK}/getCart`, {
+          params: { userId: userDetails.id },
+        })
+        .then((result) => {
+          setCartQuantity(result.data.cart.products.length);
+        });
     }
-    
-  },[cartQuantity])
-  
+  }, [cartQuantity]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_LINK}/searchByName`,
+        productName
+      );
+      setSearchResults(response.data.product);
+      console.log(searchResults)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOnChange = async (e: any) => {
+    const input = e.target.value;
+    setProductName((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    if(input.length>=2){
+      fetchData();
+    }
+    else {
+      setSearchResults([]);
+    }
+      
+  };
 
   return (
     <div className="Nav-MainContainer">
@@ -63,12 +92,25 @@ const Navbar = ({ isLoginClicked }: any) => {
         </Link>
         <h3 className="Navbar-logotext">ShopiT</h3>
       </div>
-
       <div className="Navbar-SearchContainer">
-        <input
-          placeholder="Search For products"
-          className="Navbar-searchInput"
-        ></input>
+      <div className="Autocomplete-wrapper">
+          <input
+            type="text"
+            placeholder="Search For products"
+            className="Navbar-searchInput"
+            name="productName"
+            onChange={handleOnChange}
+          />
+          {searchResults.length > 0 && (
+            <div className="Suggestions">
+              {searchResults.map((suggestion:any) => (
+                <Link className="Suggestion" key={suggestion.id} href={`/product?id=${suggestion._id}`}>
+                  {suggestion.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
         <Button id="search-button">
           <Image src={searchIcon} alt="search" className="Navbar-searchIcon" />
         </Button>
@@ -86,8 +128,13 @@ const Navbar = ({ isLoginClicked }: any) => {
                 <Button variant="contained">Add Product</Button>
               </Link>
             ) : (
-              <Link className="Nav-Link" href={`/cart?id=${userInfo.userInfo?.id}`}>
-                <Badge badgeContent={cartQuantity} color="error"> {/* Adjust the content dynamically */}
+              <Link
+                className="Nav-Link"
+                href={`/cart?id=${userInfo.userInfo?.id}`}
+              >
+                <Badge badgeContent={cartQuantity} color="error">
+                  {" "}
+                  {/* Adjust the content dynamically */}
                   <ShoppingBagIcon fontSize="large" />
                 </Badge>
               </Link>
