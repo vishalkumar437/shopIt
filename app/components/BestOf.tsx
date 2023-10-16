@@ -50,9 +50,7 @@ import Link from "next/link";
       
     ];
   
-    const handleRouting = ()=>{
-      console.log("click")
-    }
+    
     return (
       <Box
         sx={{
@@ -66,22 +64,19 @@ import Link from "next/link";
         },
         }}
       >
-        <Card sx={{ backgroundColor: "cyan", textAlign: "center", minWidth: "200px" }}>
-          <CardMedia
-            component="img"
-            height="140"
-            image="/path-to-electronics-image.jpg"
-            alt="Electronics"
-          />
+        <Card sx={{display:"flex", backgroundColor: "cyan", textAlign: "center", minWidth: "200px", alignItems:"center" }}>
+          <Link href={`/products?category=electronics`} style={{display:"flex",flexDirection:"column", textDecoration:"none", alignItems:"center"}}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               Best Of Electronics
             </Typography>
             <Button variant="contained">View All</Button>
           </CardContent>
+          </Link>
+          
         </Card>
         {categories.map((category, index) => (
-          <Link href="/products" key={index}>
+          <Link href={`/products?subcategory=${category.title.toLowerCase()}`} style={{display:"flex",flexDirection:"column", textDecoration:"none", alignItems:"center"}} key={index}>
           <Card
             key={index}
             sx={{ flex: "0 0 auto", minWidth: "200px", textAlign: "center" }}
